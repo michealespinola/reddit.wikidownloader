@@ -3,7 +3,8 @@ A Python PRAW script to download all of the accessible wiki pages of multiple Re
 
 1. Nothing is hardcoded in the script. Reddit instance auth is done in a standard [praw.ini](https://praw.readthedocs.io/en/stable/getting_started/configuration/prawini.html) file. Everything else is provided via command line parameters.
 1. This will dump all accessible wiki pages into corresponding markdown language files. It will keep the heirarchy of nested document names.
-1. Special files can be designated to preserve original formatting. There are (2) that are preserved by default:
+1. Special files can be designated to preserve original formatting. There are (3) that are preserved by default:
+   1. "config/automoderator` (yaml: automoderator config 
    1. `config/stylesheet` (html: stylesheet for the subreddit)
    1. `usernotes` (json: Reddit Toolbox usernotes)
 
