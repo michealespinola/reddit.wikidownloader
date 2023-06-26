@@ -37,8 +37,9 @@ def save_wiki_pages(subreddits, reddit_instance_name):
 
         # Define the dictionary of wiki pages to exclude from conversion
         excluded_wiki_pages = {
-            "config/stylesheet": "html",  # HTML subreddit stylesheet
-            "usernotes": "json",          # JSON Toolbox per-user notes
+            "config/automoderator": "yaml",  # YAML automoderator config
+            "config/stylesheet": "html",     # HTML subreddit stylesheet
+            "usernotes": "json",             # JSON Toolbox per-user notes
         }
 
         # Fetch all wiki pages
