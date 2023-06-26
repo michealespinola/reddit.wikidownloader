@@ -9,60 +9,66 @@ A Python PRAW script to download all of the accessible wiki pages of multiple Re
 
 ## Example command syntax
 
-    python3 reddit.wikidownloader.py <subreddit1>,<subreddit2>,<subreddit3>,... <praw-instance> <optional-2FA>
+    python3 reddit.wikidownloader.py <subreddit1>,<subreddit2>,... <praw-instance> <optional-2FA>
 
 ## Example command output for /r/DataHoarder
 
     # python3 reddit.wikidownloader.py datahoarder <praw-instance> <optional-2FA>
-    Saved: datahoarder_wiki/backups.md
-    Saved: datahoarder_wiki/ceph.md
-    Saved: datahoarder_wiki/cloud.md
-    Saved: datahoarder_wiki/config/description.md
-    Saved: datahoarder_wiki/config/sidebar.md
-    Saved: datahoarder_wiki/config/stylesheet.html
-    Saved: datahoarder_wiki/config/submit_text.md
-    Saved: datahoarder_wiki/config/welcome_message.md
-    Saved: datahoarder_wiki/guides.md
-    Saved: datahoarder_wiki/hardware.md
-    Saved: datahoarder_wiki/index.md
-    Saved: datahoarder_wiki/index/faq.md
-    Saved: datahoarder_wiki/index/rules.md
-    Saved: datahoarder_wiki/moderatelyhelpfulbot.md
-    Saved: datahoarder_wiki/raidvszfs.md
-    Saved: datahoarder_wiki/removalreasons.md
-    Saved: datahoarder_wiki/repost_sleuth_config.md
-    Saved: datahoarder_wiki/software.md
-    Saved: datahoarder_wiki/sources.md
-    Saved: datahoarder_wiki/sources/essentials.md
-    Saved: datahoarder_wiki/zfs.md
+    Saved: wikis/datahoarder/backups.md
+    Saved: wikis/datahoarder/ceph.md
+    Saved: wikis/datahoarder/cloud.md
+    Saved: wikis/datahoarder/config/description.md
+    Saved: wikis/datahoarder/config/sidebar.md
+    Saved: wikis/datahoarder/config/stylesheet.html
+    Saved: wikis/datahoarder/config/submit_text.md
+    Saved: wikis/datahoarder/config/welcome_message.md
+    Saved: wikis/datahoarder/guides.md
+    Saved: wikis/datahoarder/hardware.md
+    Saved: wikis/datahoarder/index.md
+    Saved: wikis/datahoarder/index/faq.md
+    Saved: wikis/datahoarder/index/rules.md
+    Saved: wikis/datahoarder/moderatelyhelpfulbot.md
+    Saved: wikis/datahoarder/raidvszfs.md
+    Saved: wikis/datahoarder/removalreasons.md
+    Saved: wikis/datahoarder/repost_sleuth_config.md
+    Saved: wikis/datahoarder/software.md
+    Saved: wikis/datahoarder/sources.md
+    Saved: wikis/datahoarder/sources/essentials.md
+    Saved: wikis/datahoarder/zfs.md
 
 ## Example saved content for /r/DataHoarder
 
-    # tree -a  datahoarder_wiki
-    datahoarder_wiki
-    ├── backups.md
-    ├── ceph.md
-    ├── cloud.md
-    ├── config
-    │   ├── description.md
-    │   ├── sidebar.md
-    │   ├── stylesheet.html
-    │   ├── submit_text.md
-    │   └── welcome_message.md
-    ├── guides.md
-    ├── hardware.md
-    ├── index
-    │   ├── faq.md
-    │   └── rules.md
-    ├── index.md
-    ├── moderatelyhelpfulbot.md
-    ├── raidvszfs.md
-    ├── removalreasons.md
-    ├── repost_sleuth_config.md
-    ├── software.md
-    ├── sources
-    │   └── essentials.md
-    ├── sources.md
-    └── zfs.md
-    
-    3 directories, 21 files
+    # tree -a wikis
+    wikis
+    └── datahoarder
+        ├── backups.md
+        ├── ceph.md
+        ├── cloud.md
+        ├── config
+        │   ├── description.md
+        │   ├── sidebar.md
+        │   ├── stylesheet.html
+        │   ├── submit_text.md
+        │   └── welcome_message.md
+        ├── guides.md
+        ├── hardware.md
+        ├── index
+        │   ├── faq.md
+        │   └── rules.md
+        ├── index.md
+        ├── moderatelyhelpfulbot.md
+        ├── raidvszfs.md
+        ├── removalreasons.md
+        ├── repost_sleuth_config.md
+        ├── software.md
+        ├── sources
+        │   └── essentials.md
+        ├── sources.md
+        └── zfs.md
+
+    4 directories, 21 files
+
+## Common errors
+
+1. `prawcore.exceptions.OAuthException: invalid_grant error processing request`
+   * This most likely means that you misentered your 2FA code. You should also verify your credentials in the `praw.ini` file.
