@@ -32,7 +32,7 @@ def save_wiki_pages(subreddits, reddit_instance_name):
         subreddit = reddit.subreddit(subreddit_name)
 
         # Create a directory to save the wiki pages
-        output_directory = subreddit_name + '_wiki'
+        output_directory = os.path.join('wikis', subreddit_name)
         os.makedirs(output_directory, exist_ok=True)
 
         # Define the dictionary of wiki pages to exclude from conversion
