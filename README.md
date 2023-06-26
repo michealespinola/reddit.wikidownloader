@@ -1,5 +1,5 @@
 # reddit.wikidownloader
-A Python PRAW script to download all of the accessible wiki pages of a Reddit subreddit
+A Python PRAW script to download all of the accessible wiki pages of multiple Reddit subreddits.
 
 1. Nothing is hardcoded in the script. Reddit instance auth is done in a standard [praw.ini](https://praw.readthedocs.io/en/stable/getting_started/configuration/prawini.html) file. Everything else is provided via command line parameters.
 1. This will dump all accessible wiki pages into corresponding markdown language files. It will keep the heirarchy of nested document names.
