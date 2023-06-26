@@ -9,7 +9,7 @@ A Python PRAW script to download all of the accessible wiki pages of a Reddit su
 
 ## Example command syntax
 
-    python3 reddit.wikidownloader.py <subreddit> <praw-instance> <optional-2FA>
+    python3 reddit.wikidownloader.py <subreddit1>,<subreddit2>,<subreddit3>,... <praw-instance> <optional-2FA>
 
 ## Example command output for /r/DataHoarder
 
