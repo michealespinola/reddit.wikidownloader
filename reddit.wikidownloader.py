@@ -52,6 +52,14 @@ def save_wiki_pages(sub_name, reddit_instance_name):
             with open(output_path, 'w', encoding='utf-8') as f:
                 f.write(page.content_md)
         else:
+            # Check if the page has HTML content
+            if page.content_html:
+                # Convert content to markdown format using html2text
+                content_md = html2text.html2text(page.content_html)
+            else:
+                # Skip conversion if the page has no HTML content
+                continue
+
             # Check if the page is a nested page
             if '/' in page.name:
                 # Create subfolders if needed
@@ -60,9 +68,6 @@ def save_wiki_pages(sub_name, reddit_instance_name):
                 output_path = os.path.join(subfolder, os.path.basename(page.name) + '.md')
             else:
                 output_path = os.path.join(output_directory, page.name + '.md')
-
-            # Convert content to markdown format using html2text
-            content_md = html2text.html2text(page.content_html)
 
             # Save the wiki page as a markdown document
             with open(output_path, 'w', encoding='utf-8') as f:
