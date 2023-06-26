@@ -70,5 +70,5 @@ A Python PRAW script to download all of the accessible wiki pages of multiple Re
 
 ## Common errors
 
-1. `prawcore.exceptions.OAuthException: invalid_grant error processing request`
-   * This most likely means that you misentered your 2FA code. You should also verify your credentials in the `praw.ini` file.
+1. `prawcore.exceptions.OAuthException: invalid_grant error processing request`  
+*This most likely means that you misentered your 2FA code. You should also verify your credentials in the `praw.ini` file.*
