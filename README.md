@@ -8,6 +8,26 @@ A **P**ython **R**eddit **A**PI **W**rapper (PRAW) script to download all of the
    1. `config/stylesheet` (html: stylesheet for the subreddit)
    1. `usernotes` (json: Reddit Toolbox usernotes)
 
+## Prerequisites
+
+### Required Modules
+
+1. `praw`
+2. `html2text`
+
+#### Install modules with PIP (**P**IP **I**nstalls **P**ackages)
+
+1. [Make sure `pip` is installed](https://pip.pypa.io/en/stable/installation/)
+2. [Install `praw`](https://pypi.org/project/praw/)
+3. [Install `html2txt`](https://pypi.org/project/html2text/)
+
+#### Commands to do it all for you:
+
+    curl -sSL https://bootstrap.pypa.io/get-pip.py -o get-pip.py
+    python3 get-pip.py
+    pip install praw
+    pip install html2text
+
 ## Example command syntax
 
     python3 reddit.wikidownloader.py <subreddit1>,<subreddit2>,... <praw-instance> <optional-2FA>
