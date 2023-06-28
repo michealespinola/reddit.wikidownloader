@@ -21,7 +21,7 @@ A **P**ython **R**eddit **A**PI **W**rapper (PRAW) script to download all of the
 2. [Install `praw`](https://pypi.org/project/praw/)
 3. [Install `html2txt`](https://pypi.org/project/html2text/)
 
-#### Commands to do it all for you:
+#### Commands to do it all for you
 
     curl -sSL https://bootstrap.pypa.io/get-pip.py -o get-pip.py
     python3 get-pip.py
