@@ -2,18 +2,20 @@ import praw
 import argparse
 import os
 import html2text
+import prawcore
+import time
 
 # Parse command-line arguments
 parser = argparse.ArgumentParser()
-parser.add_argument("subreddits", help="Comma-separated list of subreddit names")
-parser.add_argument("reddit_instance", help="Name of the Reddit instance (PRAW) as specified in praw.ini")
+parser.add_argument("subreddits_list", help="Comma-separated list of subreddit names")
+parser.add_argument("reddit_instance_name", help="Name of the Reddit instance (PRAW) as specified in praw.ini")
 parser.add_argument("twoFA", nargs="?", default=None, help="Optional two-factor authentication code")
 args = parser.parse_args()
 
-subreddits = args.subreddits.split(',')
-reddit_instance_name = args.reddit_instance
+subreddits_list = args.subreddits_list.split(',')
+reddit_instance_name = args.reddit_instance_name
 
-def save_wiki_pages(subreddits, reddit_instance_name):
+def login():
     # Connect to Reddit API using praw.ini file
     reddit = praw.Reddit(reddit_instance_name)
 
@@ -27,64 +29,89 @@ def save_wiki_pages(subreddits, reddit_instance_name):
             password=modified_password,
             user_agent=reddit.config.user_agent
         )
+    return reddit
 
-    for subreddit_name in subreddits:
-        subreddit = reddit.subreddit(subreddit_name)
+def get_subreddits(reddit):
+    if args.subreddits_list.upper() == "*JOINED*":
+        # Retrieve the list of subscribed subreddits
+        subreddit_names = [subreddit.display_name for subreddit in reddit.user.subreddits(limit=None)]
+        return ','.join(subreddit_names)
+    else:
+        # Manually specified subreddit names
+        return args.subreddits_list
 
-        # Create a directory to save the wiki pages
-        output_directory = os.path.join('wikis', subreddit_name)
-        os.makedirs(output_directory, exist_ok=True)  # Create directory if it doesn't exist
+def save_wiki_pages(subreddit_list, reddit):
+    sorted_subreddit_list = sorted(subreddit_list)  # Sort the subreddit list alphabetically
 
-        # Define the dictionary of wiki pages to exclude from conversion
-        excluded_wiki_pages = {
-            "config/automoderator": "yaml",  # YAML automoderator config
-            "config/stylesheet": "html",     # HTML subreddit stylesheet
-            "usernotes": "json",             # JSON Toolbox per-user notes
-        }
+    for subreddit_name in sorted_subreddit_list:
+        try:
+            subreddit = reddit.subreddit(subreddit_name)
 
-        # Fetch all wiki pages
-        wiki_pages = subreddit.wiki
+            # Create a directory to save the wiki pages
+            output_directory = os.path.join('wikis', subreddit_name)
+            os.makedirs(output_directory, exist_ok=True)  # Create directory if it doesn't exist
 
-        for page in wiki_pages:
-            # Check if the page is excluded from conversion
-            if page.name in excluded_wiki_pages:
-                # Save the wiki page without conversion
-                output_path = os.path.join(output_directory, page.name + '.' + excluded_wiki_pages[page.name])
+            # Define the dictionary of wiki pages to exclude from conversion
+            excluded_wiki_pages = {
+                "config/automoderator": "yaml",  # YAML automoderator config
+                "config/stylesheet": "html",     # HTML subreddit stylesheet
+                "usernotes": "json",             # JSON Toolbox per-user notes
+            }
 
-                # Create the full directory path if it doesn't exist
-                os.makedirs(os.path.dirname(output_path), exist_ok=True)
+            # Fetch all wiki pages
+            wiki_pages = subreddit.wiki
 
-                with open(output_path, 'w', encoding='utf-8') as f:
-                    f.write(page.content_md)
+            for page in wiki_pages:
+                # Check if the page is excluded from conversion
+                if page.name in excluded_wiki_pages:
+                    # Save the wiki page without conversion
+                    output_path = os.path.join(output_directory, page.name + '.' + excluded_wiki_pages[page.name])
 
-                print(f'Saved: {output_path}')
-            else:
-                # Check if the page has HTML content
-                if page.content_html:
-                    # Convert content to markdown format using html2text
-                    content_md = html2text.html2text(page.content_html)
+                    # Create the full directory path if it doesn't exist
+                    os.makedirs(os.path.dirname(output_path), exist_ok=True)
+
+                    with open(output_path, 'w', encoding='utf-8') as f:
+                        f.write(page.content_md)
+
+                    print(f'Saved: {output_path}')
                 else:
-                    # Skip conversion if the page has no HTML content
-                    continue
+                    # Check if the page has HTML content
+                    if page.content_html:
+                        # Convert content to markdown format using html2text
+                        content_md = html2text.html2text(page.content_html)
+                    else:
+                        # Skip conversion if the page has no HTML content
+                        continue
 
-                # Check if the page is a nested page
-                if '/' in page.name:
-                    # Create subfolders if needed
-                    subfolder = os.path.join(output_directory, os.path.dirname(page.name))
-                    os.makedirs(subfolder, exist_ok=True)
-                    output_path = os.path.join(subfolder, os.path.basename(page.name) + '.md')
-                else:
-                    output_path = os.path.join(output_directory, page.name + '.md')
+                    # Check if the page is a nested page
+                    if '/' in page.name:
+                        # Create subfolders if needed
+                        subfolder = os.path.join(output_directory, os.path.dirname(page.name))
+                        os.makedirs(subfolder, exist_ok=True)
+                        output_path = os.path.join(subfolder, os.path.basename(page.name) + '.md')
+                    else:
+                        output_path = os.path.join(output_directory, page.name + '.md')
 
-                # Create the full directory path if it doesn't exist
-                os.makedirs(os.path.dirname(output_path), exist_ok=True)
+                    # Create the full directory path if it doesn't exist
+                    os.makedirs(os.path.dirname(output_path), exist_ok=True)
 
-                # Save the wiki page as a markdown document
-                with open(output_path, 'w', encoding='utf-8') as f:
-                    f.write(content_md)
+                    # Save the wiki page as a markdown document
+                    with open(output_path, 'w', encoding='utf-8') as f:
+                        f.write(content_md)
 
-                print(f'Saved: {output_path}')
+                    print(f'Saved: {output_path}')
+
+        except prawcore.exceptions.Forbidden as e:
+            print(f"Skipping subreddit '{subreddit_name}': {e}")
+
+#       time.sleep(3)  # Pause for 1 second
 
 
-# Example usage
-save_wiki_pages(subreddits, reddit_instance_name)
+# Run it
+reddit = login()
+subreddits = get_subreddits(reddit)
+
+#print("Subscribed Subreddits:")
+#print(subreddits)
+
+save_wiki_pages(subreddits.split(','), reddit)
