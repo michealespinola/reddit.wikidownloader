@@ -33,7 +33,7 @@ def save_wiki_pages(subreddits, reddit_instance_name):
 
         # Create a directory to save the wiki pages
         output_directory = os.path.join('wikis', subreddit_name)
-        os.makedirs(output_directory, exist_ok=True)
+        os.makedirs(output_directory, exist_ok=True)  # Create directory if it doesn't exist
 
         # Define the dictionary of wiki pages to exclude from conversion
         excluded_wiki_pages = {
@@ -50,8 +50,14 @@ def save_wiki_pages(subreddits, reddit_instance_name):
             if page.name in excluded_wiki_pages:
                 # Save the wiki page without conversion
                 output_path = os.path.join(output_directory, page.name + '.' + excluded_wiki_pages[page.name])
+
+                # Create the full directory path if it doesn't exist
+                os.makedirs(os.path.dirname(output_path), exist_ok=True)
+
                 with open(output_path, 'w', encoding='utf-8') as f:
                     f.write(page.content_md)
+
+                print(f'Saved: {output_path}')
             else:
                 # Check if the page has HTML content
                 if page.content_html:
@@ -70,11 +76,14 @@ def save_wiki_pages(subreddits, reddit_instance_name):
                 else:
                     output_path = os.path.join(output_directory, page.name + '.md')
 
+                # Create the full directory path if it doesn't exist
+                os.makedirs(os.path.dirname(output_path), exist_ok=True)
+
                 # Save the wiki page as a markdown document
                 with open(output_path, 'w', encoding='utf-8') as f:
                     f.write(content_md)
 
-            print(f'Saved: {output_path}')
+                print(f'Saved: {output_path}')
 
 
 # Example usage
