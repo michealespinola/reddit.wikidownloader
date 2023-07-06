@@ -93,3 +93,5 @@ A **P**ython **R**eddit **A**PI **W**rapper (PRAW) script to download all of the
 
 1. `prawcore.exceptions.OAuthException: invalid_grant error processing request`  
 *This most likely means that you misentered your 2FA code. You should also verify your credentials in the `praw.ini` file.*
+2. `FileNotFoundError: [Errno 2] No such file or directory: '[...]config/automoderator.yaml'`  
+*This most likely means that you are running an older version of the script that did not properly automatically create subdirectories in certain operating system environments. **This has been fixed**.*
