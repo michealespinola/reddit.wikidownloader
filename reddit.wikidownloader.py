@@ -35,15 +35,16 @@ def get_subreddits(reddit):
     if args.subreddits_list.upper() == "*JOINED*":
         # Retrieve the list of subscribed subreddits
         subreddit_names = [subreddit.display_name for subreddit in reddit.user.subreddits(limit=None)]
-        return ','.join(subreddit_names)
     else:
         # Manually specified subreddit names
-        return args.subreddits_list
+        subreddit_names = args.subreddits_list.split(',')
 
-def save_wiki_pages(subreddit_list, reddit):
-    sorted_subreddit_list = sorted(subreddit_list)  # Sort the subreddit list alphabetically
+    sorted_subreddit_names = sorted(subreddit_names, key=str.lower)  # Sort the subreddit names case-insensitively
+    return ','.join(sorted_subreddit_names)
 
-    for subreddit_name in sorted_subreddit_list:
+def save_wiki_pages(sorted_subreddit_names, reddit):
+
+    for subreddit_name in sorted_subreddit_names:
         try:
             subreddit = reddit.subreddit(subreddit_name)
 
@@ -104,14 +105,14 @@ def save_wiki_pages(subreddit_list, reddit):
         except prawcore.exceptions.Forbidden as e:
             print(f"Skipping subreddit '{subreddit_name}': {e}")
 
-#       time.sleep(3)  # Pause for 1 second
+#       time.sleep(1)  # Pause for 1 second
 
 
 # Run it
 reddit = login()
 subreddits = get_subreddits(reddit)
 
-#print("Subscribed Subreddits:")
-#print(subreddits)
+print("Subscribed Subreddits:")
+print(subreddits)
 
 save_wiki_pages(subreddits.split(','), reddit)
