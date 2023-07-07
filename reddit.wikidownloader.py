@@ -102,8 +102,8 @@ def save_wiki_pages(sorted_subreddit_names, reddit):
 
                     print(f'Saved: {output_path}')
 
-        except prawcore.exceptions.Forbidden as e:
-            print(f"Skipping subreddit '{subreddit_name}': {e}")
+        except prawcore.exceptions.Forbidden as error:
+            print(f"Error: /r/{subreddit_name}/wiki, {error}")
 
 #       time.sleep(1)  # Pause for 1 second
 
@@ -112,7 +112,7 @@ def save_wiki_pages(sorted_subreddit_names, reddit):
 reddit = login()
 subreddits = get_subreddits(reddit)
 
-print("Subscribed Subreddits:")
+print("Scanning Subreddits:")
 print(subreddits)
 
 save_wiki_pages(subreddits.split(','), reddit)
