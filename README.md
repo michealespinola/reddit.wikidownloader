@@ -41,7 +41,7 @@ A **P**ython **R**eddit **A**PI **W**rapper (PRAW) script to download all of the
 
     python3 reddit.wikidownloader.py <subreddit1>,<subreddit2>,... <praw-instance> <optional-2FA>
 
-This will download wiki pages from manually supplied subreddit names.
+This will download wiki pages from manually supplied comma-delimated subreddit names.
 
 ### Example #2 (dynamically aquire account-joined subreddits)
 
@@ -49,7 +49,7 @@ This will download wiki pages from manually supplied subreddit names.
 
 This will download wiki pages from dynamically aquired subreddit names based on the account used to authenticate the Reddit instance. All subreddits that the account has joined will be processed.
 
-Note: Hundreds of joined subreddits can potentially take hours to download depending on the contents of those subreddit wikis.
+**Note**: Hundreds of joined subreddits can potentially take hours to download depending on the contents of those subreddit wikis.
 
 ## Example Command Output For /r/DataHoarder
 
