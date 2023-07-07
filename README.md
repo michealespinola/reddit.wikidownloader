@@ -17,10 +17,10 @@ A **P**ython **R**eddit **A**PI **W**rapper (PRAW) script to download all of the
 
 #### Other Modules Used (that should be installed by default or with the above Required Prerequisites):
 
-* argparse
-* os
-* prawcore
-* time
+* `argparse`
+* `os`
+* `prawcore`
+* `time`
 
 #### Install modules with PIP (**P**IP **I**nstalls **P**ackages)
 
