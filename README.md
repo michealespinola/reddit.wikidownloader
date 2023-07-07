@@ -10,10 +10,17 @@ A **P**ython **R**eddit **A**PI **W**rapper (PRAW) script to download all of the
 
 ## Prerequisites
 
-### Required Modules
+### Required Modules (that are likely not a part of your default python install)
 
-1. `praw`
-2. `html2text`
+* `praw`
+* `html2text`
+
+#### Other Modules Used (that should be installed by default or with the above Required Prerequisites):
+
+* argparse
+* os
+* prawcore
+* time
 
 #### Install modules with PIP (**P**IP **I**nstalls **P**ackages)
 
@@ -21,18 +28,30 @@ A **P**ython **R**eddit **A**PI **W**rapper (PRAW) script to download all of the
 2. [Install `praw`](https://pypi.org/project/praw/)
 3. [Install `html2txt`](https://pypi.org/project/html2text/)
 
-#### Commands to do it all for you
+#### Commands To Do It All For You
 
     curl -sSL https://bootstrap.pypa.io/get-pip.py -o get-pip.py
     python3 get-pip.py
     pip install praw
     pip install html2text
 
-## Example command syntax
+## Example Command Syntax
+
+### Example #1 (manually specifiy subreddits)
 
     python3 reddit.wikidownloader.py <subreddit1>,<subreddit2>,... <praw-instance> <optional-2FA>
 
-## Example command output for /r/DataHoarder
+This will download wiki pages from manually supplied subreddit names.
+
+### Example #2 (dynamically aquire account-joined subreddits)
+
+    python3 reddit.wikidownloader.py *JOINED* <praw-instance> <optional-2FA>
+
+This will download wiki pages from dynamically aquired subreddit names based on the account used to authenticate the Reddit instance. All subreddits that the account has joined will be processed.
+
+Note: Hundreds of joined subreddits can potentially take hours to download depending on the contents of those subreddit wikis.
+
+## Example Command Output For /r/DataHoarder
 
     # python3 reddit.wikidownloader.py datahoarder <praw-instance> <optional-2FA>
     Saved: wikis/datahoarder/backups.md
@@ -57,7 +76,7 @@ A **P**ython **R**eddit **A**PI **W**rapper (PRAW) script to download all of the
     Saved: wikis/datahoarder/sources/essentials.md
     Saved: wikis/datahoarder/zfs.md
 
-## Example saved content for /r/DataHoarder
+## Example Saved Content For /r/DataHoarder
 
     # tree -a wikis
     wikis
@@ -89,9 +108,11 @@ A **P**ython **R**eddit **A**PI **W**rapper (PRAW) script to download all of the
 
     4 directories, 21 files
 
-## Common errors
+## Common Errors
 
-1. `prawcore.exceptions.OAuthException: invalid_grant error processing request`  
-*This most likely means that you misentered your 2FA code. You should also verify your credentials in the `praw.ini` file.*
-2. `FileNotFoundError: [Errno 2] No such file or directory: '[...]config/automoderator.yaml'`  
-*This most likely means that you are running an older version of the script that did not properly automatically create subdirectories in certain operating system environments. **This has been fixed**.*
+1. `Error: /r/<subreddit>/wiki, received 403 HTTP response`  
+   * *This most likely means that the subreddit's wiki is disabled.*
+2. `prawcore.exceptions.OAuthException: invalid_grant error processing request`  
+   * *This most likely means that you misentered your 2FA code. You should also verify your credentials in the `praw.ini` file.*
+3. `FileNotFoundError: [Errno 2] No such file or directory: 'wikis/<subreddit>/config/automoderator.yaml'`  
+   * *This most likely means that you are running an older version of the script that did not properly automatically create subdirectories in certain operating system environments. **This has been fixed**.*
