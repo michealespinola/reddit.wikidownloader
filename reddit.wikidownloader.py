@@ -1,9 +1,9 @@
 # Reddit Wiki Downloader
 #
 # Description: Download specific or all joined subreddit wiki documents
-# Version: 3.0.0
+# Version: 3.1.0
 # Author: @michealespinola https://github.com/michealespinola/reddit.wikidownloader
-# Date: September 14, 2023
+# Date: December 1, 2023
 
 import argparse
 import configparser
@@ -13,6 +13,7 @@ import praw
 import prawcore
 import time
 
+#BEGIN TIME CALCULATION
 start_time = time.time()
 
 # Parse command-line arguments
@@ -38,7 +39,7 @@ else:
 
 # Reddit API rate limits max: 10 for non-OAuth clients
 # Reddit API rate limits max: 100 for OAuth clients
-REQUESTS_PER_MINUTE = 90
+REQUESTS_PER_MINUTE = 95
 
 def login():
     # Connect to Reddit API using praw.ini file
@@ -64,7 +65,8 @@ def get_subreddits(reddit):
             # Manually specified subreddit names
             subreddit_names = args.subreddits_list.split(',')
 
-        sorted_subreddit_names = sorted(subreddit_names, key=str.lower)  # Sort the subreddit names case-insensitively
+        # Sort the subreddit names case-insensitively
+        sorted_subreddit_names = sorted(subreddit_names, key=str.lower)
         return ','.join(sorted_subreddit_names)
 
     except prawcore.exceptions.OAuthException as error:
@@ -73,8 +75,9 @@ def get_subreddits(reddit):
         print(f"OAUTH: Authorization failed, exiting...\n")
         exit(1)
 
-def save_wiki_pages(sorted_subreddit_names, reddit):
+wikis_directory = os.path.join(os.getcwd(), 'wikis')
 
+def save_wiki_pages(sorted_subreddit_names, reddit):
     # Initialize a timestamp for the start of the current minute and a counter for requests made in the current minute
     current_minute_start = time.time()
     requests_in_current_minute = 0
@@ -85,7 +88,8 @@ def save_wiki_pages(sorted_subreddit_names, reddit):
 
             # Create a directory to save the wiki pages
             output_directory = os.path.join('wikis', subreddit_name)
-            os.makedirs(output_directory, exist_ok=True)  # Create directory if it doesn't exist
+            # Create directory if it doesn't exist
+            os.makedirs(output_directory, exist_ok=True)
 
             # Define the dictionary of wiki pages to exclude from conversion
             excluded_wiki_pages = {
@@ -162,21 +166,19 @@ def save_wiki_pages(sorted_subreddit_names, reddit):
                     # Save the wiki page as a markdown document
                     with open(output_path, 'w', encoding='utf-8') as f:
                         f.write(content_md)
-
                     print(f'Saved: {output_path}')
 
                 # Increment the counter for requests in the current minute
                 requests_in_current_minute += 1
 
+        #CATCH EXCEPTIONS
         except prawcore.exceptions.Forbidden as error:
-            print(f"Error: /r/{subreddit_name}/wiki, (HTTP 403: Forbidden)")
+            print(f"Error: /r/{subreddit_name}/wiki (HTTP 403: Forbidden)")
             requests_in_current_minute += 1
-
         except prawcore.exceptions.TooManyRequests as error:
-            print(f"Error: /r/{subreddit_name}/wiki, (HTTP 429: Too Many Requests)")
+            print(f"Error: /r/{subreddit_name}/wiki (HTTP 429: Too Many Requests)")
             print(f"LIMIT: Per minute rate limit exceeded, exiting...\n")
             exit(1)
-
         except Exception as error:
             print(f"Error: {error}")
 
@@ -187,13 +189,87 @@ print("\r\033[K", end="", flush=True)
 
 print(f"Loading subreddits...", end="", flush=True)
 subreddits = get_subreddits(reddit)
+num_subreddits = len(subreddits.split(','))
 print("\r\033[K", end="", flush=True)
 
-print(f"Scanning Subreddits: {subreddits}")
-print(f"API ratelimit: {REQUESTS_PER_MINUTE} requests per minute\n")
-# exit()
+print(f"Scanning subreddits: {subreddits}\n")
+print(f"Subreddits queued: {num_subreddits}")
+print(f"    API ratelimit: {REQUESTS_PER_MINUTE} requests per minute\n")
 save_wiki_pages(subreddits.split(','), reddit)
 
+#CLEANUP EMPTY/INACCESSIBLE SUBREDDITS
+if os.path.exists(wikis_directory):
+    for root, dirs, files in os.walk(wikis_directory, topdown=False):
+        for dir in dirs:
+            dir_path = os.path.join(root, dir)
+            # Check if the directory starts with or is a subdirectory of wikis_directory
+            if dir_path.startswith(wikis_directory):
+                if not os.listdir(dir_path):
+                    os.rmdir(dir_path)
+
+# Count directories and .md files in the 'wikis' directory
+if os.path.exists('wikis'):
+    directory_count = sum(os.path.isdir(os.path.join('wikis', d)) for d in os.listdir('wikis'))
+
+    # Function to count files in a directory and its subdirectories recursively
+    def count_files_in_directory(directory):
+        file_count = 0
+        for root, _, files in os.walk(directory):
+            file_count += len(files)
+        return file_count
+
+    # Function to count ".md" files in a directory and its subdirectories recursively
+    def count_md_files_in_directory(directory):
+        md_file_count = 0
+        for root, _, files in os.walk(directory):
+            md_file_count += sum(f.endswith('.md') for f in files)
+        return md_file_count
+
+    # Calculate the total count of all files saved
+    total_file_count = count_files_in_directory('wikis')
+    # Calculate the total count of ".md" files
+    md_file_count = count_md_files_in_directory('wikis')
+    # Calculate the total count of "other" files
+    other_file_count = total_file_count - md_file_count
+
+# Function to calculate the total size of all files in a directory and its subdirectories recursively
+def calculate_total_size(directory):
+    total_size = 0
+    for root, _, files in os.walk(directory):
+        for file in files:
+            file_path = os.path.join(root, file)
+            total_size += os.path.getsize(file_path)
+    return total_size
+
+# Calculate the total size of all files in the 'wikis' directory
+if os.path.exists('wikis'):
+    total_size_bytes = calculate_total_size('wikis')
+    # Function to convert bytes to a human-readable format
+    def convert_bytes_to_human_readable(bytes):
+        suffixes = ['B', 'KB', 'MB', 'GB', 'TB', 'PB']
+        i = 0
+        while bytes >= 1024 and i < len(suffixes)-1:
+            bytes /= 1024.0
+            i += 1
+        return f"{bytes:.2f} {suffixes[i]}"
+    total_size_readable = convert_bytes_to_human_readable(total_size_bytes)
+
+#CALCULATE RUNTIME
 end_time = time.time()
 elapsed_time = end_time - start_time
-print(f"Script took {elapsed_time:.2f} seconds to run.")
+rounded_elapsed_time = int(elapsed_time) + (elapsed_time > int(elapsed_time))
+# Calculate hours, minutes, and seconds
+std_hours = rounded_elapsed_time // 3600
+std_minutes = (rounded_elapsed_time % 3600) // 60
+std_seconds = rounded_elapsed_time % 60
+
+# PRINT SUMMARY
+print(f"\nSUMMARY:\n")
+print(f"             Runtime : {rounded_elapsed_time} seconds ({std_hours:02}:{std_minutes:02}:{std_seconds:02})")
+print(f"   Applied ratelimit : {REQUESTS_PER_MINUTE} requests per minute")
+print(f"Subreddits processed : {num_subreddits} (this run)")
+print(f"    Wikis downloaded : {directory_count}")
+print(f"      Markdown files : {md_file_count}")
+print(f"         Other files : {other_file_count}")
+print(f"         Total files : {total_file_count}")
+print(f"        Size on disk : {total_size_readable}\n")
