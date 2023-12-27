@@ -1,0 +1,20 @@
+[tool.poetry]
+name = "reddit-wikidownloader"
+version = "0.1.0"
+description = ""
+authors = ["Your Name <you@example.com>"]
+readme = "README.md"
+packages = [{include = "reddit"}]
+
+[tool.poetry.dependencies]
+python = "^3.10"
+prawcore = "^2.3.0"
+argparse = "^1.4.0"
+configparser = "^6.0.0"
+html2text = "^2020.1.16"
+praw = "^7.7.1"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
