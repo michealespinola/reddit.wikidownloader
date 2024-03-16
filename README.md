@@ -4,10 +4,12 @@ A **P**ython **R**eddit **A**PI **W**rapper (PRAW) script to download all of the
 
 1. Authentication credentials are not hardcoded in the script. Reddit site auth is done in a standard '[praw.ini](https://praw.readthedocs.io/en/stable/getting_started/configuration/prawini.html)' file. You will need to create and use this. Everything else is provided via command line parameters.
 1. This will dump all accessible wiki pages into corresponding markdown language files. It will keep the heirarchy of nested document names.
-1. Special files can be designated to preserve original formatting. There are (3) that are preserved by default:
+1. Special files can be designated to preserve original formatting. There are (5) that are preserved by default:
+   1. `automoderator-schedule` (yaml: automoderator schedule)
    1. `config/automoderator` (yaml: automoderator config)
-   1. `config/stylesheet` (html: stylesheet for the subreddit)
+   1. `config/stylesheet` (css: HTML stylesheet for the subreddit)
    1. `usernotes` (json: Reddit Toolbox usernotes)
+   1. `toolbox` (json: Reddit Toolbox settings)
 
 ## Prerequisites
 
