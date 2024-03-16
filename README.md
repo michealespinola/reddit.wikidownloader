@@ -96,11 +96,11 @@ This will download wiki pages from dynamically aquired subreddit names based on 
                  Runtime : 9 seconds (00:00:09)
        Applied ratelimit : 95 requests per minute
     Subreddits processed : 1 (this run)
-        Wikis downloaded : 245
-          Markdown files : 3618
-             Other files : 266
-             Total files : 3884
-            Size on disk : 38.11 MB
+        Wikis downloaded : 1
+          Markdown files : 20
+             Other files : 1
+             Total files : 21
+            Size on disk : 145.07 KB
 
 ## Example Saved Content For /r/DataHoarder
 
