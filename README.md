@@ -63,12 +63,18 @@ This will download wiki pages from dynamically aquired subreddit names based on 
 ## Example Command Output For /r/DataHoarder
 
     # python3 reddit.wikidownloader.py datahoarder <praw-site> <optional-2FA>
+
+    Scanning subreddits: datahoarder
+
+    Subreddits queued: 1
+        API ratelimit: 95 requests per minute
+
     Saved: wikis/datahoarder/backups.md
     Saved: wikis/datahoarder/ceph.md
     Saved: wikis/datahoarder/cloud.md
     Saved: wikis/datahoarder/config/description.md
     Saved: wikis/datahoarder/config/sidebar.md
-    Saved: wikis/datahoarder/config/stylesheet.html
+    Saved: wikis/datahoarder/config/stylesheet.css
     Saved: wikis/datahoarder/config/submit_text.md
     Saved: wikis/datahoarder/config/welcome_message.md
     Saved: wikis/datahoarder/guides.md
@@ -84,6 +90,17 @@ This will download wiki pages from dynamically aquired subreddit names based on 
     Saved: wikis/datahoarder/sources.md
     Saved: wikis/datahoarder/sources/essentials.md
     Saved: wikis/datahoarder/zfs.md
+
+    SUMMARY:
+
+                 Runtime : 9 seconds (00:00:09)
+       Applied ratelimit : 95 requests per minute
+    Subreddits processed : 1 (this run)
+        Wikis downloaded : 245
+          Markdown files : 3618
+             Other files : 266
+             Total files : 3884
+            Size on disk : 38.11 MB
 
 ## Example Saved Content For /r/DataHoarder
 
