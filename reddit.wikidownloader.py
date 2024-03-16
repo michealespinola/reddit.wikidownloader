@@ -1,9 +1,9 @@
 # Reddit Wiki Downloader
 #
 # Description: Download specific or all joined subreddit wiki documents
-# Version: 3.1.0
+# Version: 3.2.0
 # Author: @michealespinola https://github.com/michealespinola/reddit.wikidownloader
-# Date: December 1, 2023
+# Date: March 16, 2024
 
 import argparse
 import configparser
@@ -93,9 +93,11 @@ def save_wiki_pages(sorted_subreddit_names, reddit):
 
             # Define the dictionary of wiki pages to exclude from conversion
             excluded_wiki_pages = {
-                "config/automoderator": "yaml",  # YAML automoderator config
-                "config/stylesheet": "html",     # HTML subreddit stylesheet
-                "usernotes": "json",             # JSON Toolbox per-user notes
+                "automoderator-schedule": "yaml", # YAML automoderator schedule
+                "config/automoderator": "yaml",   # YAML automoderator config
+                "config/stylesheet": "css",       # HTML subreddit stylesheet
+                "usernotes": "json",              # JSON Toolbox per-user notes
+                "toolbox": "json",                # JSON Toolbox settings
             }
 
             # Fetch all wiki pages
