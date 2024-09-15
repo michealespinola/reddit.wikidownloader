@@ -1,0 +1,6 @@
+argparser==1.4.0
+configparser==7.1.0
+datetime==5.5
+html2text==2020.1.16
+praw==7.7.1
+prawcore==2.4.0
