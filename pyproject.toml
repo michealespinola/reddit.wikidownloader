@@ -9,6 +9,7 @@ readme = "README.md"
 packages = [{include = "reddit"}]
 
 [tool.poetry.dependencies]
+python = "^3.8"
 argparse = "^1.4.0"
 configparser = "^7.1.0"
 datetime = "^5.5"
