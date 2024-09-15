@@ -3,6 +3,7 @@ name = "reddit-wikidownloader"
 version = "3.2.0"
 description = "Download specific or all joined subreddit wiki documents"
 authors = ["Micheal Espinola <michealespinola@gmail.com>"]
+repository = "https://github.com/michealespinola/reddit.wikidownloader"
 license = "GPL-3.0"
 readme = "README.md"
 packages = [{include = "reddit"}]
