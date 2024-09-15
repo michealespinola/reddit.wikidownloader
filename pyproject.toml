@@ -1,0 +1,21 @@
+[tool.poetry]
+name = "reddit-wikidownloader"
+version = "3.2.0"
+description = "Download specific or all joined subreddit wiki documents"
+authors = ["https://github.com/michealespinola/reddit.wikidownloader"]
+license = "GPL-3.0"
+readme = "README.md"
+packages = [{include = "reddit"}]
+
+[tool.poetry.dependencies]
+python = "^3.8"
+argparse = "^1.4.0"
+configparser = "^7.1.0"
+html2text = "^2024.2.26"
+praw = "^7.7.1"
+prawcore = "^2.4.0"
+DateTime = "^5.5"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
