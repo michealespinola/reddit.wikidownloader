@@ -107,7 +107,7 @@ This will download wiki pages from dynamically acquired subreddit names based on
 
     Archived 'wikis' directory to 'wikis_2024-10-11T13-46-10'
 
-    ## Example Saved Content For /r/DataHoarder
+## Example Saved Content For /r/DataHoarder
 
     # tree -a wikis_2024-10-11T13-46-10
     wikis_2024-10-11T13-46-10
