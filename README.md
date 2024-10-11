@@ -3,7 +3,7 @@
 A **P**ython **R**eddit **A**PI **W**rapper (PRAW) script to download all of the accessible wiki pages of multiple Reddit subreddits.
 
 1. Authentication credentials are not hardcoded in the script. Reddit site auth is done in a standard '[praw.ini](https://praw.readthedocs.io/en/stable/getting_started/configuration/prawini.html)' file. You will need to create and use this. Everything else is provided via command line parameters.
-1. This will dump all accessible wiki pages into corresponding markdown language files. It will keep the heirarchy of nested document names.
+1. This will dump all accessible wiki pages into corresponding markdown language files. It will keep the hierarchy of nested document names.
 1. Special files can be designated to preserve original formatting. There are (5) that are preserved by default:
    1. `automoderator-schedule` (yaml: automoderator schedule)
    1. `config/automoderator` (yaml: automoderator config)
@@ -50,13 +50,13 @@ A **P**ython **R**eddit **A**PI **W**rapper (PRAW) script to download all of the
 
     python3 reddit.wikidownloader.py <subreddit1>,<subreddit2>,... <praw-site> <optional-2FA>
 
-This will download wiki pages from manually supplied comma-delimated subreddit names.
+This will download wiki pages from manually supplied comma-delimited subreddit names.
 
-### Example #2 (dynamically aquire account-joined subreddits)
+### Example #2 (dynamically acquire account-joined subreddits)
 
     python3 reddit.wikidownloader.py *JOINED* <praw-site> <optional-2FA>
 
-This will download wiki pages from dynamically aquired subreddit names based on the account used to authenticate the Reddit site. All subreddits that the account has joined will be processed.
+This will download wiki pages from dynamically acquired subreddit names based on the account used to authenticate the Reddit site. All subreddits that the account has joined will be processed.
 
 **Note**: Hundreds of joined subreddits can potentially take hours to download depending on the contents of those subreddit wikis.
 
@@ -137,7 +137,7 @@ This will download wiki pages from dynamically aquired subreddit names based on 
 ## Common Errors
 
 * `Error: PRAW (invalid_grant error processing request)`  
-  * *This most likely means that you misentered your 2FA code. However, you should also verify your credentials in the `praw.ini` file.*
+  * *This most likely means that you miss-entered your 2FA code. However, you should also verify your credentials in the `praw.ini` file.*
 * `Error: /r/<subreddit>/wiki, (HTTP 403: Forbidden)`  
   * *This most likely means that the subreddit's wiki is disabled. It's possible that you might be banned from that subreddit's wiki.*
 * `Error: /r/<subreddit>/wiki, (HTTP 429: Too Many Requests)`  
