@@ -64,10 +64,11 @@ This will download wiki pages from dynamically acquired subreddit names based on
 
 ## Example Command Output For /r/DataHoarder
 
-    # python3 reddit.wikidownloader.py datahoarder <praw-site> <optional-2FA>
-    Scanning subreddits: datahoarder
-    Subreddits queued: 1
+    # python reddit.wikidownloader.py datahoarder <praw-site> <optional-2FA>
 
+    Scanning subreddits: datahoarder
+
+    Subreddits queued: 1
         API ratelimit: 95 requests per minute
 
     Saved: wikis/datahoarder/backups.md
@@ -94,46 +95,49 @@ This will download wiki pages from dynamically acquired subreddit names based on
 
     SUMMARY:
 
-                 Runtime : 9 seconds (00:00:09)
-       Applied ratelimit : 95 requests per minute
+                 Runtime : 8 seconds (00:00:08)
+       Applied ratelimit : 95 requests per minute
     Subreddits processed : 1 (this run)
         Wikis downloaded : 1
-          Markdown files : 20
-             Other files : 1
-             Total files : 21
-            Size on disk : 145.07 KB
+          Markdown files : 20
+             Other files : 1
+             Total files : 21
+            Average rate : 2.68 files per second
+            Size on disk : 145.23 KB
 
-## Example Saved Content For /r/DataHoarder
+    Archived 'wikis' directory to 'wikis_2024-10-11T13-46-10'
 
-    # tree -a wikis
-    wikis
+    ## Example Saved Content For /r/DataHoarder
+
+    # tree -a wikis_2024-10-11T13-46-10
+    wikis_2024-10-11T13-46-10
     └── datahoarder
-        ├── backups.md
-        ├── ceph.md
-        ├── cloud.md
-        ├── config
-        │   ├── description.md
-        │   ├── sidebar.md
-        │   ├── stylesheet.html
-        │   ├── submit_text.md
-        │   └── welcome_message.md
-        ├── guides.md
-        ├── hardware.md
-        ├── index
-        │   ├── faq.md
-        │   └── rules.md
-        ├── index.md
-        ├── moderatelyhelpfulbot.md
-        ├── raidvszfs.md
-        ├── removalreasons.md
-        ├── repost_sleuth_config.md
-        ├── software.md
-        ├── sources
-        │   └── essentials.md
-        ├── sources.md
-        └── zfs.md
+        ├── backups.md
+        ├── ceph.md
+        ├── cloud.md
+        ├── config
+        │   ├── description.md
+        │   ├── sidebar.md
+        │   ├── stylesheet.css
+        │   ├── submit_text.md
+        │   └── welcome_message.md
+        ├── guides.md
+        ├── hardware.md
+        ├── index
+        │   ├── faq.md
+        │   └── rules.md
+        ├── index.md
+        ├── moderatelyhelpfulbot.md
+        ├── raidvszfs.md
+        ├── removalreasons.md
+        ├── repost_sleuth_config.md
+        ├── software.md
+        ├── sources
+        │   └── essentials.md
+        ├── sources.md
+        └── zfs.md
 
-    4 directories, 21 files
+    5 directories, 21 files
 
 ## Common Errors
 
