@@ -138,16 +138,16 @@ This will download wiki pages from dynamically acquired subreddit names based on
 ## Common Errors
 
 * `Error: PRAW (invalid_grant error processing request)`  
-  > This most likely means that you miss-entered your 2FA code. However, you should also verify your credentials in the `praw.ini` file.*
+  > This most likely means that you miss-entered your 2FA code. However, you should also verify your credentials in the `praw.ini` file.
 
 * `Error: /r/<subreddit>/wiki, (HTTP 403: Forbidden)`  
-  > This most likely means that the subreddit's wiki is disabled. It's possible that you might be banned from that subreddit's wiki.*
+  > This most likely means that the subreddit's wiki is disabled. It's possible that you might be banned from that subreddit's wiki.
 
 * `Error: /r/<subreddit>/wiki, (HTTP 429: Too Many Requests)`  
-  > This means that you exceeded the rate limit of your connection to Reddit's API. The script exits to prevent you from being banned. Try lowering the hardcoded `REQUESTS_PER_MINUTE` script variable, or stop using Reddit with the same account until the script is finished.*
+  > This means that you exceeded the rate limit of your connection to Reddit's API. The script exits to prevent you from being banned. Try lowering the hardcoded `REQUESTS_PER_MINUTE` script variable, or stop using Reddit with the same account until the script is finished.
 
 * `Error: '<name>' site section does not exist in praw.ini, exiting...`  
-  > This means that the `praw.ini` file is not properly set up. Look at the '[example-praw.ini](https://github.com/michealespinola/reddit.wikidownloader/blob/main/example-praw.ini)' file for required fields and formatting examples.*
+  > This means that the `praw.ini` file is not properly set up. Look at the '[example-praw.ini](https://github.com/michealespinola/reddit.wikidownloader/blob/main/example-praw.ini)' file for required fields and formatting examples.
 
 * `FileNotFoundError: [Errno 2] No such file or directory: 'wikis/<subreddit>/config/automoderator.yaml'`  
-  > This most likely means that you are running an older version of the script that did not properly automatically create subdirectories in certain operating system environments. **This has been fixed**.*
+  > This most likely means that you are running an older version of the script that did not properly automatically create subdirectories in certain operating system environments. **This has been fixed**.
