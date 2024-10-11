@@ -1,7 +1,7 @@
 # Reddit Wiki Downloader
 #
 # Description: Download specific or all joined subreddit wiki documents
-# Version: 3.2.0
+# Version: 3.2.1
 # Author: @michealespinola https://github.com/michealespinola/reddit.wikidownloader
 # Date: March 16, 2024
 
@@ -12,6 +12,7 @@ import os
 import praw
 import prawcore
 import time
+from datetime import datetime
 
 #BEGIN TIME CALCULATION
 start_time = time.time()
@@ -39,7 +40,7 @@ else:
 
 # Reddit API rate limits max: 10 for non-OAuth clients
 # Reddit API rate limits max: 100 for OAuth clients
-REQUESTS_PER_MINUTE = 95
+requests_per_minute = 95
 
 def login():
     # Connect to Reddit API using praw.ini file
@@ -97,6 +98,7 @@ def save_wiki_pages(sorted_subreddit_names, reddit):
                 "config/automoderator": "yaml",   # YAML automoderator config
                 "config/stylesheet": "css",       # HTML subreddit stylesheet
                 "usernotes": "json",              # JSON Toolbox per-user notes
+                "tbsettings": "json",             # JSON Toolbox settings
                 "toolbox": "json",                # JSON Toolbox settings
             }
 
@@ -115,17 +117,17 @@ def save_wiki_pages(sorted_subreddit_names, reddit):
                     requests_in_current_minute = 0
 
                 # Check if we have made 60 requests in the current minute
-                if requests_in_current_minute >= REQUESTS_PER_MINUTE:
+                if requests_in_current_minute >= requests_per_minute:
                     # Calculate the remaining time in the current minute
                     remaining_time = 60 - elapsed_seconds
                     # Format the remaining_time to display with no decimal places
                     remaining_time_formatted = "{:.0f}".format(remaining_time)
-                    print(f"PAUSE: Reached {REQUESTS_PER_MINUTE} API requests per minute (wait {remaining_time_formatted}s)", end="", flush=True)
+                    print(f"PAUSE: Reached {requests_per_minute} API requests per minute (wait {remaining_time_formatted}s)", end="", flush=True)
                     time.sleep(1)
 
                     for i in range(int(remaining_time), 0, -1):
                         print("\r\033[K", end="", flush=True)
-                        print(f"PAUSE: Reached {REQUESTS_PER_MINUTE} API requests per minute (wait {i}s)", end="", flush=True)
+                        print(f"PAUSE: Reached {requests_per_minute} API requests per minute (wait {i}s)", end="", flush=True)
                         time.sleep(1)
 
                     current_minute_start = time.time()
@@ -196,7 +198,7 @@ print("\r\033[K", end="", flush=True)
 
 print(f"Scanning subreddits: {subreddits}\n")
 print(f"Subreddits queued: {num_subreddits}")
-print(f"    API ratelimit: {REQUESTS_PER_MINUTE} requests per minute\n")
+print(f"    API ratelimit: {requests_per_minute} requests per minute\n")
 save_wiki_pages(subreddits.split(','), reddit)
 
 #CLEANUP EMPTY/INACCESSIBLE SUBREDDITS
@@ -265,13 +267,29 @@ std_hours = rounded_elapsed_time // 3600
 std_minutes = (rounded_elapsed_time % 3600) // 60
 std_seconds = rounded_elapsed_time % 60
 
+# Calculate average files downloaded per minute
+if elapsed_time < 60:
+    average_files_per_second = total_file_count / elapsed_time
+    average_files = f"{average_files_per_second:.2f} files per second"
+else:
+    elapsed_time_minutes = elapsed_time / 60
+    average_files_per_minute = total_file_count / elapsed_time_minutes
+    average_files = f"{average_files_per_minute:.2f} files per minute"
+
 # PRINT SUMMARY
 print(f"\nSUMMARY:\n")
 print(f"             Runtime : {rounded_elapsed_time} seconds ({std_hours:02}:{std_minutes:02}:{std_seconds:02})")
-print(f"   Applied ratelimit : {REQUESTS_PER_MINUTE} requests per minute")
+print(f"   Applied ratelimit : {requests_per_minute} requests per minute")
 print(f"Subreddits processed : {num_subreddits} (this run)")
 print(f"    Wikis downloaded : {directory_count}")
 print(f"      Markdown files : {md_file_count}")
 print(f"         Other files : {other_file_count}")
 print(f"         Total files : {total_file_count}")
+print(f"        Average rate : {average_files}")
 print(f"        Size on disk : {total_size_readable}\n")
+
+if os.path.exists('wikis'):
+    timestamp = datetime.now().isoformat(timespec='seconds').replace(':', '-')
+    new_directory_name = f"wikis_{timestamp}"
+    os.rename('wikis', new_directory_name)
+    print(f"Archived 'wikis' directory to '{new_directory_name}'\n")
