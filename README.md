@@ -9,16 +9,16 @@ A **P**ython **R**eddit **A**PI **W**rapper (PRAW) script to download all of the
     1. `automoderator-schedule` (yaml: automoderator schedule)
     1. `config/automoderator` (yaml: automoderator config)
     1. `config/stylesheet` (css: HTML stylesheet for the subreddit)
-    1. `usernotes` (json: Reddit Toolbox usernotes)
     1. `tbsettings` (json: Reddit Toolbox settings)
     1. `toolbox` (json: Reddit Toolbox settings)
+    1. `usernotes` (json: Reddit Toolbox usernotes)
 
 ## Prerequisites
 
 ### Required Modules (that are likely not a part of your default python install)
 
-* `praw`
 * `html2text`
+* `praw`
 
 #### Other Modules Used (that should be installed by default or with the above Required Prerequisites)
 
